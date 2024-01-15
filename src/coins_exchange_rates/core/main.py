@@ -2,10 +2,16 @@ from fastapi import FastAPI
 import uvicorn
 
 from config.settings import settings
+from core.exceptions import (
+    BaseAPIException, exception_handler, python_exception_handler
+)
 
 
 def get_app():
     app = FastAPI()
+
+    app.exception_handler(BaseAPIException)(exception_handler)
+    app.exception_handler(Exception)(python_exception_handler)
 
     return app
 
