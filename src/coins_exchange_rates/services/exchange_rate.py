@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Iterator
 
 from db.models import ExchangeRate
@@ -24,3 +25,12 @@ class ExchangeRateService:
 
     async def delete(self, id: int) -> None:
         return await self._repository.delete(id)
+
+    async def search(
+        self,
+        exchangers: str = '',
+        coins_from: str = '',
+        coins_to: str = '',
+        last_updated: datetime | None = None
+    ) -> list[ExchangeRate]:
+        return await self._repository.search(exchangers, coins_from, coins_to, last_updated)

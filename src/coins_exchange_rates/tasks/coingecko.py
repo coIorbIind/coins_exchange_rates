@@ -18,6 +18,15 @@ def coingecko_periodic_task(self: TaskWithServices):
     objs_to_create = []
     for coin, coin_data in new_data.items():
         for currency, currency_data in coin_data.items():
+            if asyncio.run(
+                self.exchange_rate_service.search(
+                    coins_from=coin,
+                    coins_to=currency,
+                    last_updated=currency_data['last_updated']
+                )
+            ):
+                logger.info('no new info from coingecko')
+                continue
             objs_to_create.append(
                 ExchangeRateCreateSchema(
                     exchanger='coingecko',
@@ -25,6 +34,7 @@ def coingecko_periodic_task(self: TaskWithServices):
                     coin_to=currency.upper(),
                     exchange_rate=currency_data['price'],
                     time=currency_data['last_updated'],
+                    is_actual=True,
                 )
             )
     res = asyncio.run(self.exchange_rate_service.bulk_create(objs_to_create))

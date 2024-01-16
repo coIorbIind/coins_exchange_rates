@@ -10,4 +10,5 @@ class ExchangeRate(Base):
     coin_from = sa.Column(sa.String, name='coin_from')
     coin_to = sa.Column(sa.String, name='coin_to')
     exchange_rate = sa.Column(sa.DECIMAL, name='exchange_rate')
+    is_actual = sa.Column(sa.Boolean, name='is_actual', nullable=True, default=False)
     time = sa.Column(sa.DateTime, name='time')

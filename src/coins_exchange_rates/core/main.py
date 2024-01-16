@@ -1,5 +1,8 @@
-from fastapi import FastAPI
 import uvicorn
+from fastapi import FastAPI
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from redis import asyncio as aioredis
 
 from api.routes import exchange_rate
 from config.settings import settings
@@ -16,6 +19,11 @@ def get_app():
     container.wire(modules=[exchange_rate, coingecko])
 
     app = FastAPI()
+
+    @app.on_event('startup')
+    async def startup():
+        redis = aioredis.from_url(settings.redis.redis_url, encoding='utf8', decode_responses=True)
+        FastAPICache.init(RedisBackend(redis), prefix='api:cache')
 
     app.exception_handler(BaseAPIException)(exception_handler)
     app.exception_handler(Exception)(python_exception_handler)
