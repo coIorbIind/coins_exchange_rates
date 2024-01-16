@@ -13,5 +13,6 @@ httpx==0.26.0
 
 requests==2.31.0
 
+alembic==1.13.1
 psycopg2==2.9.9
 SQLAlchemy==2.0.25
