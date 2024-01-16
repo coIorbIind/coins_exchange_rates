@@ -21,3 +21,4 @@ dependency-injector==4.41.0
 
 celery==5.3.6
 Redis==5.0.1
+fastapi-cache2==0.2.1

@@ -1,18 +1,21 @@
 from collections import defaultdict
 
 from fastapi import APIRouter, Depends
+from fastapi_cache import JsonCoder
+from fastapi_cache.decorator import cache
 from dependency_injector.wiring import inject, Provide
 
 from api.schemas import ExchangerSchema, CourseSchema
 from containers.container import AppContainer
-from db.schemas import ExchangeRateGetSchema
 from services import ExchangeRateService
+from utils.cache import key_builder
 
 router = APIRouter()
 
 
 @router.get(path='/courses',)
 @inject
+@cache(expire=5, coder=JsonCoder, key_builder=key_builder)
 async def courses(
     exchangers: str = '',
     coins_from: str = '',
