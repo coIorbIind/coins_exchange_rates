@@ -19,3 +19,10 @@ class BaseAPIException(Exception):
                 } for loc in self.loc
             ]
         }
+
+
+class ObjectNotFound(BaseAPIException):
+    """ Объект не найден """
+    status_code = 404
+    code = 'object_not_fount'
+    message = 'Объект не найден'
