@@ -17,7 +17,7 @@ class CoingeckoService:
         self.coins = config['COINS']
         self.order = config['ORDER']
 
-    def get_exchange_rates(self) -> dict[dict[str, float]]:
+    def get_exchange_rates(self) -> dict[str, dict[str, float]]:
         result = defaultdict(dict)
 
         for vs_currency in self.vs_currencies:

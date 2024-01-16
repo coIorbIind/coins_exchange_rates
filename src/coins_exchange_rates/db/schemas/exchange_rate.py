@@ -11,6 +11,7 @@ class ExchangeRateBaseSchema(BaseModelSchema):
     coin_to: str
     exchange_rate: Decimal
     time: datetime
+    is_actual: bool
 
 
 class ExchangeRateGetSchema(ExchangeRateBaseSchema):

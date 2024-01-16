@@ -30,9 +30,12 @@ services:
   celery:
     build:
       context: .
+      dockerfile: Dockerfile
     env_file:
       - .env
     container_name: celery_app
     command: [ "/app/entrypoints/celery.sh" ]
     depends_on:
       - redis
+      - db
+      - exchanger

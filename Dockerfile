@@ -14,4 +14,4 @@ ENV PYTHONPATH "/app/src/coins_exchange_rates"
 
 RUN chmod a+x entrypoints/*.sh
 
-CMD entrypoints/app.sh
+CMD /app/entrypoints/app.sh
