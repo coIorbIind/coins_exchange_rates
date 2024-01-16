@@ -1,4 +1,5 @@
 from collections import defaultdict
+from datetime import datetime
 
 import requests
 
@@ -11,10 +12,10 @@ logger = init_logger(__name__)
 
 class CoingeckoService:
     def __init__(self, config: CoingeckoSettings):
-        self.base_url = config.BASE_URL
-        self.vs_currencies = config.VS_CURRENCIES
-        self.coins = config.COINS
-        self.order = config.ORDER
+        self.base_url = config['BASE_URL']
+        self.vs_currencies = config['VS_CURRENCIES']
+        self.coins = config['COINS']
+        self.order = config['ORDER']
 
     def get_exchange_rates(self) -> dict[dict[str, float]]:
         result = defaultdict(dict)
@@ -32,6 +33,10 @@ class CoingeckoService:
                 continue
 
             for coin_data in response.json():
-                result[self.coins[coin_data['id']]][vs_currency] = coin_data['current_price']
+                result[self.coins[coin_data['id']]][vs_currency] = {}
+                result[self.coins[coin_data['id']]][vs_currency]['price'] = coin_data['current_price']
+                result[self.coins[coin_data['id']]][vs_currency]['last_updated'] = datetime.fromisoformat(
+                    coin_data['last_updated'][:-1]
+                )
 
         return result

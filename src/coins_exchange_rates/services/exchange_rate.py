@@ -19,5 +19,8 @@ class ExchangeRateService:
     async def create(self, data: ExchangeRateCreateSchema) -> ExchangeRate:
         return await self._repository.create(data)
 
+    async def bulk_create(self, data: list[ExchangeRateCreateSchema]) -> list[ExchangeRate]:
+        return await self._repository.bulk_create(data)
+
     async def delete(self, id: int) -> None:
         return await self._repository.delete(id)

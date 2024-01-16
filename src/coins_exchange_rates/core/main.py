@@ -7,12 +7,13 @@ from containers.container import AppContainer
 from core.exceptions import (
     BaseAPIException, exception_handler, python_exception_handler
 )
+from tasks import coingecko
 
 
 def get_app():
     container = AppContainer()
     container.config.from_dict(settings.model_dump())
-    container.wire(modules=[exchange_rate])
+    container.wire(modules=[exchange_rate, coingecko])
 
     app = FastAPI()
 

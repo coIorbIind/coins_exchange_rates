@@ -35,6 +35,16 @@ class ExchangeRateRepository:
             session.refresh(exchange_rate)
             return exchange_rate
 
+    async def bulk_create(self, data: list[ExchangeRateCreateSchema]) -> list[ExchangeRate]:
+        """ Создание нескольких объектов модели """
+        objs = [ExchangeRate(**obj.model_dump()) for obj in data]
+        with self.session_factory() as session:
+            session.add_all(objs)
+            session.commit()
+            for obj in objs:
+                session.refresh(obj)
+            return objs
+
     async def delete(self, id: int) -> None:
         """ Удаление объекта модели """
         obj = await self.get_object_by_id(id=id)

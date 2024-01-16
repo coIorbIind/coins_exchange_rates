@@ -7,6 +7,15 @@ services:
       - "5432:5432"
     env_file:
       - .env
+  redis:
+    image: redis
+    restart: unless-stopped
+    container_name: redis_for_celery
+    env_file:
+      - .env
+    command: redis-server --port ${REDIS_PORT} --requirepass ${REDIS_PASS} --save 60 1 --loglevel warning
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
   exchanger:
     build:
       context: .
@@ -18,3 +27,12 @@ services:
       - .env
     depends_on:
       - db
+  celery:
+    build:
+      context: .
+    env_file:
+      - .env
+    container_name: celery_app
+    command: [ "/app/entrypoints/celery.sh" ]
+    depends_on:
+      - redis

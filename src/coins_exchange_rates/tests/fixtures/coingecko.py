@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pytest
 
 from config.settings import settings
@@ -6,7 +8,7 @@ from services.coingecko import CoingeckoService
 
 @pytest.fixture
 def coingecko_service() -> CoingeckoService:
-    return CoingeckoService(config=settings.coingecko)
+    return CoingeckoService(config=settings.coingecko.model_dump())
 
 
 class CoingeckoPatchedAnswer:
@@ -26,22 +28,25 @@ def coingecko_valid_answer():
             status_code=200,
             response_data=[
                 {
-                    "id": "bitcoin",
-                    "symbol": "btc",
-                    "name": "Bitcoin",
-                    "current_price": 3744337,
+                    'id': 'bitcoin',
+                    'symbol': 'btc',
+                    'name': 'Bitcoin',
+                    'current_price': 3744337,
+                    'last_updated': '2024-01-16T06:10:49.393Z',
                 },
                 {
-                    "id": "ethereum",
-                    "symbol": "eth",
-                    "name": "Ethereum",
-                    "current_price": 221708,
+                    'id': 'ethereum',
+                    'symbol': 'eth',
+                    'name': 'Ethereum',
+                    'current_price': 221708,
+                    'last_updated': '2024-01-16T06:10:49.393Z',
                 },
                 {
-                    "id": "tether",
-                    "symbol": "usdt",
-                    "name": "Tether",
-                    "current_price": 87.57,
+                    'id': 'tether',
+                    'symbol': 'usdt',
+                    'name': 'Tether',
+                    'current_price': 87.57,
+                    'last_updated': '2024-01-16T06:10:49.393Z',
                 }
             ]
         ),
@@ -49,22 +54,25 @@ def coingecko_valid_answer():
             status_code=200,
             response_data=[
                 {
-                    "id": "bitcoin",
-                    "symbol": "btc",
-                    "name": "Bitcoin",
-                    "current_price": 42302,
+                    'id': 'bitcoin',
+                    'symbol': 'btc',
+                    'name': 'Bitcoin',
+                    'current_price': 42302,
+                    'last_updated': '2024-01-16T06:10:49.393Z',
                 },
                 {
-                    "id": "ethereum",
-                    "symbol": "eth",
-                    "name": "Ethereum",
-                    "current_price": 2516.51,
+                    'id': 'ethereum',
+                    'symbol': 'eth',
+                    'name': 'Ethereum',
+                    'current_price': 2516.51,
+                    'last_updated': '2024-01-16T06:10:49.393Z',
                 },
                 {
-                    "id": "tether",
-                    "symbol": "usdt",
-                    "name": "Tether",
-                    "current_price": 0.999875,
+                    'id': 'tether',
+                    'symbol': 'usdt',
+                    'name': 'Tether',
+                    'current_price': 0.999875,
+                    'last_updated': '2024-01-16T06:10:49.393Z',
                 }
             ]
         )
@@ -88,7 +96,34 @@ def coingecko_invalid_answer():
 @pytest.fixture
 def coingecko_result():
     return {
-        'BTC': {'rub': 3744337, 'usd': 42302},
-        'ETH': {'rub': 221708, 'usd': 2516.51},
-        'USDTERC': {'rub': 87.57, 'usd': 0.999875},
+        'BTC': {
+            'rub': {
+                'price': 3744337,
+                'last_updated': datetime(2024, 1, 16, 6, 10, 49, 393000),
+            },
+            'usd': {
+                'price': 42302,
+                'last_updated': datetime(2024, 1, 16, 6, 10, 49, 393000),
+            }
+        },
+        'ETH': {
+            'rub': {
+                'price': 221708,
+                'last_updated': datetime(2024, 1, 16, 6, 10, 49, 393000),
+            },
+            'usd': {
+                'price': 2516.51,
+                'last_updated': datetime(2024, 1, 16, 6, 10, 49, 393000),
+            }
+        },
+        'USDTERC': {
+            'rub': {
+                'price': 87.57,
+                'last_updated': datetime(2024, 1, 16, 6, 10, 49, 393000),
+            },
+            'usd': {
+                'price': 0.999875,
+                'last_updated': datetime(2024, 1, 16, 6, 10, 49, 393000),
+            }
+        },
     }

@@ -18,3 +18,6 @@ psycopg2==2.9.9
 SQLAlchemy==2.0.25
 
 dependency-injector==4.41.0
+
+celery==5.3.6
+Redis==5.0.1

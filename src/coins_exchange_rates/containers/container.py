@@ -1,12 +1,14 @@
 from dependency_injector import containers, providers
 
+from config.settings import settings
 from db.database import Database
 from db.crud.exchange_rate import ExchangeRateRepository
-from services.exchange_rate import ExchangeRateService
+from services import ExchangeRateService, CoingeckoService
 
 
 class AppContainer(containers.DeclarativeContainer):
     config = providers.Configuration()
+    config.from_dict(settings.model_dump())
 
     db = providers.Singleton(Database)
 
@@ -18,3 +20,4 @@ class AppContainer(containers.DeclarativeContainer):
         ExchangeRateService,
         repository=exchange_rate_repository,
     )
+    coingecko_service = providers.Factory(CoingeckoService, config=config.coingecko)
