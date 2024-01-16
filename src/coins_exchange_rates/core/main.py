@@ -2,12 +2,16 @@ from fastapi import FastAPI
 import uvicorn
 
 from config.settings import settings
+from containers.container import AppContainer
 from core.exceptions import (
     BaseAPIException, exception_handler, python_exception_handler
 )
 
 
 def get_app():
+    container = AppContainer()
+    container.config.from_dict(settings.model_dump())
+
     app = FastAPI()
 
     app.exception_handler(BaseAPIException)(exception_handler)

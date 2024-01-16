@@ -16,3 +16,5 @@ requests==2.31.0
 alembic==1.13.1
 psycopg2==2.9.9
 SQLAlchemy==2.0.25
+
+dependency-injector==4.41.0

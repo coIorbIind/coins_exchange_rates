@@ -5,6 +5,7 @@ from sqlalchemy import create_engine, orm
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session
 
+from config.settings import settings
 from core.logger import init_logger
 
 
@@ -14,8 +15,8 @@ Base = declarative_base()
 
 
 class Database:
-    def __init__(self, db_url: str) -> None:
-        self._engine = create_engine(db_url, echo=True)
+    def __init__(self) -> None:
+        self._engine = create_engine(settings.db.database_url, echo=False)
         self._session_factory = orm.scoped_session(
             orm.sessionmaker(
                 autocommit=False,
