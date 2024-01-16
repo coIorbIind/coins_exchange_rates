@@ -8,11 +8,7 @@ COPY src/requirements.txt src/requirements.txt
 
 RUN pip install -r src/requirements.txt
 
-RUN mkdir logs
-
-COPY src/ src/
-
-COPY entrypoints/ entrypoints/
+COPY . .
 
 ENV PYTHONPATH "/app/src/coins_exchange_rates"
 

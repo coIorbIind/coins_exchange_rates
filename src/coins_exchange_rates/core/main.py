@@ -1,17 +1,26 @@
 from fastapi import FastAPI
 import uvicorn
 
+from api.routes import exchange_rate
 from config.settings import settings
+from containers.container import AppContainer
 from core.exceptions import (
     BaseAPIException, exception_handler, python_exception_handler
 )
+from tasks import coingecko
 
 
 def get_app():
+    container = AppContainer()
+    container.config.from_dict(settings.model_dump())
+    container.wire(modules=[exchange_rate, coingecko])
+
     app = FastAPI()
 
     app.exception_handler(BaseAPIException)(exception_handler)
     app.exception_handler(Exception)(python_exception_handler)
+
+    app.include_router(exchange_rate.router, prefix='/api/v1', tags=['courses'])
 
     return app
 
