@@ -5,6 +5,11 @@ from config.settings import settings
 
 
 def init_logger(name: str):
+    """
+    Инициализация логгера
+    :param name: название файла, из которого пишем логи
+    :return: инстанс логгера
+    """
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
 

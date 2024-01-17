@@ -13,7 +13,7 @@ from utils.cache import key_builder
 router = APIRouter()
 
 
-@router.get(path='/courses',)
+@router.get(path='/courses')
 @inject
 @cache(expire=5, coder=JsonCoder, key_builder=key_builder)
 async def courses(
@@ -22,6 +22,14 @@ async def courses(
     coins_to: str = '',
     exchange_rate_service: ExchangeRateService = Depends(Provide[AppContainer.exchange_rate_service]),
 ) -> list[ExchangerSchema]:
+    """
+    Endpoint для получения актуальных курсов валют с бирж
+    :param exchangers: биржи, по которым нужно вернуть ответ
+    :param coins_from: валюты, курсы которых нужно получить
+    :param coins_to: валюты, в которые нужно осуществить перевод
+    :param exchange_rate_service: DI сервис для общения с репозиторием
+    :return: список курсов сгруппированных по бирже
+    """
     stored_courses = await exchange_rate_service.search(exchangers, coins_from, coins_to)
 
     response = defaultdict(list)

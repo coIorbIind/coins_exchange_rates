@@ -13,6 +13,10 @@ def key_builder(
     *args,
     **kwargs,
 ):
+    """
+    Функция для построения ключа кэша
+    Удаляет DI сервис из аргументов, для корректной работы кэширования
+    """
     kwargs['kwargs'].pop('exchange_rate_service')
     prefix = FastAPICache.get_prefix()
     cache_key = f"{prefix}:{namespace}:{func.__module__}:{func.__name__}:{args}:{kwargs}"

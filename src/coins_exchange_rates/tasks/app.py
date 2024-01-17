@@ -10,6 +10,7 @@ logger = init_logger(__name__)
 
 
 class TaskWithServices(Task):
+    """ Класс-наследник задачи celery, позволяющий подключиться к DI сервисам """
     @inject
     def __init__(
         self,

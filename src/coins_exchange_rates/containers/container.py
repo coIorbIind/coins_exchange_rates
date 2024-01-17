@@ -7,6 +7,7 @@ from services import ExchangeRateService, CoingeckoService
 
 
 class AppContainer(containers.DeclarativeContainer):
+    """ DI контейнер для работы с сервисами """
     config = providers.Configuration()
     config.from_dict(settings.model_dump())
 

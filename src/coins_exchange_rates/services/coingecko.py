@@ -11,6 +11,7 @@ logger = init_logger(__name__)
 
 
 class CoingeckoService:
+    """ Сервис для работы с CoingeckoAPI """
     def __init__(self, config: CoingeckoSettings):
         self.base_url = config['BASE_URL']
         self.vs_currencies = config['VS_CURRENCIES']
@@ -18,6 +19,7 @@ class CoingeckoService:
         self.order = config['ORDER']
 
     def get_exchange_rates(self) -> dict[str, dict[str, float]]:
+        """ Получение списка курсов через CoingeckoAPI """
         result = defaultdict(dict)
 
         for vs_currency in self.vs_currencies:

@@ -15,6 +15,7 @@ logger = init_logger(__name__)
 
 
 class ExchangeRateRepository:
+    """ Репозиторий для работы с данными об объектах ExchangeRate """
     order = (ExchangeRate.time, )
 
     def __init__(self, session_factory: Callable[..., AbstractContextManager[Session]]) -> None:
@@ -80,6 +81,14 @@ class ExchangeRateRepository:
         coins_to: str = '',
         last_updated: datetime | None = None
     ):
+        """
+        Поиск нужных курсов
+        :param exchangers: биржи, по которым нужно вернуть ответ
+        :param coins_from: валюты, курсы которых нужно получить
+        :param coins_to: валюты, в которые нужно осуществить перевод
+        :param last_updated: время послежнего обновления курса
+        :return: список найденных курсов
+        """
         filters = self._get_filters(exchangers, coins_from, coins_to)
         if last_updated:
             filters.append(ExchangeRate.time == last_updated)
@@ -88,6 +97,7 @@ class ExchangeRateRepository:
             return session.query(ExchangeRate).filter(*filters).order_by(*self.order)
 
     def _get_filters(self, exchangers: str = '', coins_from: str = '', coins_to: str = '') -> list:
+        """ Вспомогательная функция для построения фильтров поиска """
         filters = [ExchangeRate.is_actual.is_(True)]
         if exchangers:
             exchangers = [exchanger.lower().strip() for exchanger in exchangers.split(',')]

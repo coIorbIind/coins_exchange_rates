@@ -12,6 +12,7 @@ logger = init_logger(__name__)
 
 @celery_app.task(bind=True)
 def coingecko_periodic_task(self: TaskWithServices):
+    """ Задача обновляющая актуальные курсы валют через CoingeckoAPI """
     new_data = self.coingecko_service.get_exchange_rates()
     logger.info('Get data from coingecko')
 
