@@ -4,6 +4,7 @@ from ..database import Base
 
 
 class ExchangeRate(Base):
+    """ Модель для хранения информации о курсах валют """
     __tablename__ = 'exchange_rate'
     id = sa.Column(sa.Integer, name='id', primary_key=True, autoincrement=True)
     exchanger = sa.Column(sa.String, name='exchanger', index=True)
