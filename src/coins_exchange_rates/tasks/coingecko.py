@@ -21,6 +21,7 @@ def coingecko_periodic_task(self: TaskWithServices):
         for currency, currency_data in coin_data.items():
             if asyncio.run(
                 self.exchange_rate_service.search(
+                    exchangers='coingecko',
                     coins_from=coin,
                     coins_to=currency,
                     last_updated=currency_data['last_updated']
@@ -38,6 +39,5 @@ def coingecko_periodic_task(self: TaskWithServices):
                     is_actual=True,
                 )
             )
-    res = asyncio.run(self.exchange_rate_service.bulk_create(objs_to_create))
-    for obj in res:
-        print(obj.id)
+    if objs_to_create:
+        asyncio.run(self.exchange_rate_service.bulk_create(objs_to_create))
